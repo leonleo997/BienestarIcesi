@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
     private Button btn_login;
     private SignInButton btn_google;
 
-    private final static int RC_SIGN_IN = 123;
+    private final static int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
 
 
@@ -128,6 +128,9 @@ public class Login extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            if(task.isSuccessful()){
+                Log.w("EXITO", "Login exitoso google");
+            }
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
