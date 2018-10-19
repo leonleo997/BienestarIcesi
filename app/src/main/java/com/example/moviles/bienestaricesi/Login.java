@@ -44,7 +44,6 @@ public class Login extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +56,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
-                    Toast.makeText(getApplicationContext(),"Failed to connect",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Failed to connect", Toast.LENGTH_SHORT).show();
                     //startActivity(new Intent(Login.this, singin_activity.class));
-                }else{
-                    Toast.makeText(getApplicationContext(),"Succed to connect",Toast.LENGTH_SHORT).show();
-
+                } else {
+                    Toast.makeText(getApplicationContext(), "Succed to connect", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(Login.this, Home.class);
+                    startActivity(i);
+                    finish();
                 }
             }
         };
@@ -97,7 +98,7 @@ public class Login extends AppCompatActivity {
     }
 
 
-    private void    signIn() {
+    private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -114,6 +115,9 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(Login.this, "Inicio de sesión exitoso: ", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(Login.this, Home.class);
+                    startActivity(i);
+                    finish();
                 } else {
                     Toast.makeText(Login.this, "Inicio de sesión fallido" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -128,8 +132,9 @@ public class Login extends AppCompatActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 Log.w("EXITO", "Login exitoso google");
+
             }
             try {
                 // Google Sign In was successful, authenticate with Firebase

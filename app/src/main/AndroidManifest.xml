@@ -3,6 +3,7 @@
     package="com.example.moviles.bienestaricesi">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <meta-data
         android:name="com.google.android.gms.version"
         android:value="@integer/google_play_services_version" />
@@ -18,10 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Registro"></activity>
+        <activity android:name=".Login">
 
         </activity>
-        <activity android:name=".Login">
+        <activity android:name=".Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

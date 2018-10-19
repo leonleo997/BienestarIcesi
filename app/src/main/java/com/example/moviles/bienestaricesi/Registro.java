@@ -1,5 +1,6 @@
 package com.example.moviles.bienestaricesi;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity {
+public class Registro extends AppCompatActivity {
 
     FirebaseDatabase db;
     FirebaseAuth auth;
@@ -30,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn_registrar;
 
+    private FirebaseAuth.AuthStateListener authStateListener;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,21 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
+
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    Toast.makeText(getApplicationContext(), "Failed to connect", Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(Login.this, singin_activity.class));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Succed to connect", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(Registro.this, Home.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        };
 
         DatabaseReference dbr = db.getReference().child("estudiantes");
         dbr.setValue("Yesid");
@@ -78,18 +97,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Registro.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                     user.setUid(auth.getCurrentUser().getUid());
                     Log.i("USUARIO", "onComplete: " + user.getNombre());
                     DatabaseReference dbr = db.getReference().child("Usuarios").child(user.getUid());
                     dbr.setValue(user);
 
-
+                    Intent i = new Intent(Registro.this, Home.class);
+                    startActivity(i);
+                    finish();
                     //Aquí va para el perfil
 
 
                 } else {
-                    Toast.makeText(MainActivity.this, "Registro fallido: " + task.getException(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Registro.this, "Registro fallido: " + task.getException(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
