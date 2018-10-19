@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,8 +55,16 @@ public class Adaptador extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View renglon = inflater.inflate(R.layout.renglon, null);
+        TextView tv_comentario =renglon.findViewById(R.id.tv_comentario);
+        Button btn_like=renglon.findViewById(R.id.like_btn);
 
+        tv_comentario.setText(comentarios.get(position).getContenido());
 
         return renglon;
+    }
+
+    public void addComment(Comentario comentario){
+        comentarios.add(comentario);
+        notifyDataSetChanged();
     }
 }
